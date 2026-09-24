@@ -1,0 +1,16 @@
+# Copy to ~/.dbt/profiles.yml and replace placeholders locally. Do not commit credentials.
+northstar_finance:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "<YOUR_ACCOUNT_IDENTIFIER>"
+      user: "<YOUR_USER>"
+      # Configure the authentication method required by your Snowflake account.
+      # For a temporary personal trial, set password locally or use env_var('SNOWFLAKE_PASSWORD').
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "<YOUR_ROLE>"
+      database: NORTHSTAR_FINANCE
+      warehouse: NORTHSTAR_WH
+      schema: ANALYTICS
+      threads: 4

@@ -1,0 +1,31 @@
+version: 2
+sources:
+  - name: northstar_raw
+    database: NORTHSTAR_FINANCE
+    schema: RAW
+    tables:
+      - name: EVENTS
+        columns:
+          - name: EVENT_ID
+            data_tests: [not_null, unique]
+          - name: TRANSACTION_ID
+            data_tests: [not_null]
+          - name: CURRENCY
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['GBP']
+      - name: SETTLEMENTS
+        columns:
+          - name: LINE_ID
+            data_tests: [not_null, unique]
+          - name: TRANSACTION_ID
+            data_tests: [not_null]
+      - name: PAYOUTS
+        columns:
+          - name: PAYOUT_ID
+            data_tests: [not_null, unique]
+      - name: DISPUTES
+        columns:
+          - name: DISPUTE_ID
+            data_tests: [not_null, unique]
