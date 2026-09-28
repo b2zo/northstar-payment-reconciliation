@@ -14,7 +14,8 @@ Finance needs a daily view of captured sales, completed refunds, processor settl
 | Integer-pence arithmetic, partial settlement lines, refunds, disputes, payout variance | Implemented |
 | Immutable raw row ledger, rerun guard, as-of view, SQLite operational outputs, tests | Implemented |
 | Azure Blob/ADF landing and monitoring | Planned, not deployed |
-| Snowflake raw tables and dbt models/tests | Code prepared; account execution pending |
+| Snowflake warehouse, database, schemas, raw tables, stage and CSV format | Deployed and verified in Snowflake on 28 September 2026 |
+| dbt models/tests | Code prepared; account execution pending |
 | Dashboard, replay of corrected files, managed exception workflow | Planned |
 
 The earlier `src/pipeline.py` is a small prototype retained for comparison. The consultant-style local implementation is `src/engagement.py`.
@@ -43,4 +44,4 @@ This reference implementation is a control demonstration, not payment accounting
 
 ## Cloud checkpoint
 
-The first Snowflake/dbt implementation is in [`snowflake/`](snowflake/) and [`dbt/`](dbt/). Follow [Snowflake and dbt checkpoint](docs/SNOWFLAKE_DBT_CHECKPOINT.md). These files have been statically reviewed but have **not** been executed against an account. Keep Snowflake and dbt as `in progress` in the skills bank until the commands and parity checks pass in your account. Next, build the Azure Data Factory ingestion flow and verify a live run.
+The Snowflake foundation in [`snowflake/`](snowflake/) was deployed and verified on 28 September 2026: `NORTHSTAR_WH`, `NORTHSTAR_FINANCE`, the `RAW` and `ANALYTICS` schemas, four raw tables, `NORTHSTAR_STAGE`, and `NORTHSTAR_CSV`. The X-Small warehouse was suspended after verification. The dbt project in [`dbt/`](dbt/) remains unverified until its build and parity checks pass. Follow [Snowflake and dbt checkpoint](docs/SNOWFLAKE_DBT_CHECKPOINT.md).
