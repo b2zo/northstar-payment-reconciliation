@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: fct_reconciliation_exceptions
+    description: "Transactions requiring gross settlement investigation."
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: reconciliation_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - overdue_unsettled
+                  - short_settled
+                  - over_settled
+
+      - name: gross_difference_minor
+        data_tests:
+          - not_null
+
+      - name: suggested_action
+        data_tests:
+          - not_null
