@@ -44,4 +44,41 @@ This reference implementation is a control demonstration, not payment accounting
 
 ## Cloud checkpoint
 
-The Snowflake foundation in [`snowflake/`](snowflake/) was deployed and verified on 28 September 2026: `NORTHSTAR_WH`, `NORTHSTAR_FINANCE`, the `RAW` and `ANALYTICS` schemas, four raw tables, `NORTHSTAR_STAGE`, and `NORTHSTAR_CSV`. The X-Small warehouse was suspended after verification. The dbt project in [`dbt/`](dbt/) remains unverified until its build and parity checks pass. Follow [Snowflake and dbt checkpoint](docs/SNOWFLAKE_DBT_CHECKPOINT.md).
+The Snowflake foundation was deployed and verified on 28 September 2026.
+All four synthetic feeds were loaded, validating 204,063 source rows.
+The dbt run successfully built seven models, and all 22 data tests passed
+with zero warnings or errors. Transaction reconciliation, payout controls,
+and orphan settlement checks were inspected in Snowflake using an as-of
+date of 2025-05-15.
+
+## Verified Snowflake results
+
+Validated using synthetic payment data with an as-of date of **2025-05-15**.
+
+- Loaded **204,063 source rows** across four feeds.
+- Built **7 dbt models**: four staging views and three analytical tables.
+- Passed **22 dbt tests**, with zero warnings or errors.
+
+### Transaction reconciliation
+
+| Status | Transactions | Gross settlement difference |
+|---|---:|---:|
+| Matched | 90,617 | £0.00 |
+| Overdue and unsettled | 5,264 | £789,093.20 |
+| Short settled | 4,119 | £4,119.00 |
+| Total | 100,000 | £793,212.20 |
+
+The transaction match rate is **90.617%**. The remaining **9,383 transactions**
+require investigation. Outstanding settlement amounts are not confirmed losses.
+
+Reconciliation compares captured amounts minus refunds with processor gross
+settlements. Processor fees are recorded separately.
+
+### Payout and orphan controls
+
+- **90 of 91 bank payouts** balance against their settlement lines.
+- One payout, `payout-007`, has a **£0.50 difference**.
+- One orphan settlement line, `line-orphan`, references `txn-unknown`:
+  **£10.00 gross** and **£9.90 net**.
+
+
