@@ -26,3 +26,11 @@ models:
       - name: suggested_action
         data_tests:
           - not_null
+
+      - name: first_capture_date
+        data_tests:
+          - not_null
+
+      - name: days_since_capture
+        data_tests:
+          - not_null
