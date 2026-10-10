@@ -7,3 +7,12 @@ dbt/logs/
 dbt/dbt_packages/
 .env
 profiles.yml
+
+# Local ML data and generated artifacts
+/ml/data/
+/ml/outputs/
+/ml/models/
+
+/.venv-ml/
+
+/ml/__pycache__/
