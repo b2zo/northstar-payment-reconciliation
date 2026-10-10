@@ -16,3 +16,5 @@ profiles.yml
 /.venv-ml/
 
 /ml/__pycache__/
+
+/northstar_exceptions.csv

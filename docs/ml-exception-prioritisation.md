@@ -82,3 +82,12 @@ evidence of predictive accuracy.
 Future evaluation should use later snapshots and analyst outcomes,
 measure investigation yield and recovered value, compare against
 a dispute-aware baseline, and assess ranking stability.
+## Queue comparison chart
+
+![Business baseline versus Isolation Forest investigation queues](images/ml_queue_comparison.png)
+
+Regenerate the chart from the repository root:
+
+```powershell
+.\.venv-ml\Scripts\python.exe ml\plot_comparison.py
+```
