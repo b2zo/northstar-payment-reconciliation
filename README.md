@@ -81,4 +81,35 @@ settlements. Processor fees are recorded separately.
 - One orphan settlement line, `line-orphan`, references `txn-unknown`:
   **£10.00 gross** and **£9.90 net**.
 
+## Security
+
+dbt connects through a dedicated Snowflake service account using RSA
+key-pair authentication. The private key is encrypted and stored outside
+the repository.
+
+A dedicated dbt role reads raw data and builds analytical models.
+A separate analyst role can read marts; access to RAW was tested
+and denied with secondary roles disabled.
+
+[Security implementation and verification](docs/security.md)
+
+## ML exception prioritisation
+
+Separate Isolation Forest models rank 9,383 synthetic reconciliation
+exceptions within each status. Inputs include transaction amount,
+capture age, refund ratio and dispute status.
+
+A comparison of 100 investigations per status found:
+- The business baseline selected more overdue outstanding value:
+  £29,723.21 versus £7,386.14.
+- ML selected more disputed overdue transactions: 47 versus 7.
+- ML selected more disputed short-settled transactions: 50 versus 2.
+
+The ML queues supplement business prioritisation. These exploratory
+results do not establish prediction accuracy or fraud detection.
+
+![Investigation queue comparison](docs/images/ml_queue_comparison.png)
+
+[Method, results, reproduction and limitations](docs/ml-exception-prioritisation.md)
+
 
