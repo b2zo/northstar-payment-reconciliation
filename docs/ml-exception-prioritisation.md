@@ -91,3 +91,26 @@ Regenerate the chart from the repository root:
 ```powershell
 .\.venv-ml\Scripts\python.exe ml\plot_comparison.py
 ```
+## Automatic Snowflake extraction
+
+Refresh the exception CSV from the repository root:
+
+```powershell
+.\.venv-ml\Scripts\python.exe ml\extract_exceptions.py
+.\.venv-ml\Scripts\python.exe ml\profile_exceptions.py
+```
+
+The connector uses NORTHSTAR_DBT_SVC with NORTHSTAR_DBT_ROLE
+and encrypted RSA key-pair authentication. The private key is
+stored outside the repository. Its passphrase comes from
+NORTHSTAR_KEY_PASSPHRASE or a hidden interactive prompt.
+
+Extraction verifies the connection identity, disables secondary
+roles, checks the current snapshot and amount calculations,
+and replaces the CSV through a temporary file.
+
+The current snapshot checks require 9,383 rows as of 2025-05-15.
+These expectations must be updated deliberately for a new dataset.
+
+The Snowflake query ID is printed for troubleshooting.
+Full Python validation runs separately after extraction.
