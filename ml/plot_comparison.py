@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from tempfile import NamedTemporaryFile
+
 import matplotlib
 matplotlib.use("Agg")
 
@@ -78,7 +80,38 @@ fig.text(
 fig.tight_layout(rect=(0, 0.1, 1, 0.92))
 
 output = IMAGE_DIR / "ml_queue_comparison.png"
-fig.savefig(output, dpi=180, facecolor="white")
-plt.close(fig)
+temporary_path = None
+
+try:
+    # Create a unique temporary file in the destination directory.
+    # Close its handle before Matplotlib opens it: Windows restricts
+    # access to files that another handle still holds open.
+    with NamedTemporaryFile(
+        dir=IMAGE_DIR,
+        prefix="ml_queue_comparison_",
+        suffix=".png",
+        delete=False,
+    ) as temporary_file:
+        temporary_path = Path(temporary_file.name)
+
+    # Render the complete chart without changing the previous PNG.
+    # If rendering fails, the previous chart remains available.
+    fig.savefig(
+        temporary_path,
+        format="png",
+        dpi=180,
+        facecolor="white",
+    )
+
+    # Publish only after rendering succeeds. If the destination is
+    # locked, let the error propagate so the runner reports failure.
+    temporary_path.replace(output)
+
+finally:
+    # Release plotting resources and remove any unpublished temporary
+    # file, whether rendering or replacement succeeded or failed.
+    plt.close(fig)
+    if temporary_path is not None:
+        temporary_path.unlink(missing_ok=True)
 
 print(f"Saved chart: {output}")

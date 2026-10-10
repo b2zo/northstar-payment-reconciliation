@@ -18,3 +18,7 @@ profiles.yml
 /ml/__pycache__/
 
 /northstar_exceptions.csv
+
+/logs/northstar/
+
+**/__pycache__/
